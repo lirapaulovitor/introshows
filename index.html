@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#000000">
+<title>INTROS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    height: 100%; width: 100%;
+    overflow: hidden;
+    background: #000;
+    -webkit-user-select: none; user-select: none;
+  }
+
+  .main {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    height: 100dvh; width: 100%;
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .pad {
+    width: 100%; max-width: 400px;
+    border: none; outline: none;
+    border-radius: 20px;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.06s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .pad:active { transform: scale(0.95); }
+
+  .pad-inner {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 48px 20px 38px;
+    gap: 4px;
+  }
+
+  .pad-id {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4.5rem;
+    line-height: 1;
+    letter-spacing: 4px;
+  }
+  .pad-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+  }
+  .pad-state {
+    font-family: -apple-system, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    min-height: 16px;
+    transition: color 0.3s;
+  }
+
+  .bar-track {
+    width: 70%; height: 4px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .bar-fill {
+    height: 100%; width: 0%;
+    border-radius: 4px;
+  }
+
+  /* PAD 1 — AMBER */
+  .pad--1 {
+    background: #1a1400;
+    border: 3px solid #332800;
+  }
+  .pad--1 .pad-id { color: #ffb800; }
+  .pad--1 .pad-name { color: #ffb800; opacity: 0.7; }
+  .pad--1 .pad-state { color: #665200; }
+  .pad--1 .bar-fill { background: #ffb800; }
+  .pad--1.live {
+    border-color: #ffb800;
+    box-shadow: 0 0 60px rgba(255,184,0,0.35), 0 0 140px rgba(255,184,0,0.1);
+  }
+  .pad--1.live .pad-state { color: #ffb800; }
+
+  /* PAD 2 — CYAN */
+  .pad--2 {
+    background: #001a1f;
+    border: 3px solid #003340;
+  }
+  .pad--2 .pad-id { color: #00e5ff; }
+  .pad--2 .pad-name { color: #00e5ff; opacity: 0.7; }
+  .pad--2 .pad-state { color: #005266; }
+  .pad--2 .bar-fill { background: #00e5ff; }
+  .pad--2.live {
+    border-color: #00e5ff;
+    box-shadow: 0 0 60px rgba(0,229,255,0.35), 0 0 140px rgba(0,229,255,0.1);
+  }
+  .pad--2.live .pad-state { color: #00e5ff; }
+
+  .pad.live { animation: breathe 2s ease-in-out infinite; }
+  @keyframes breathe {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
+  }
+
+  /* STOP */
+  .stop {
+    position: fixed;
+    bottom: max(20px, env(safe-area-inset-bottom, 20px));
+    left: 50%; transform: translateX(-50%);
+    background: rgba(255,59,59,0.1);
+    border: 2px solid rgba(255,59,59,0.3);
+    color: #ff3b3b;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 6px;
+    padding: 14px 44px;
+    border-radius: 14px;
+    cursor: pointer;
+    touch-action: manipulation;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .stop.on { opacity: 1; pointer-events: all; }
+  .stop:active { transform: translateX(-50%) scale(0.95); }
+</style>
+</head>
+<body>
+
+<div class="main">
+  <button class="pad pad--1" id="pad1">
+    <div class="pad-inner">
+      <div class="pad-id">INTRO 1</div>
+      <div class="pad-name">Álbum</div>
+      <div class="pad-state" id="st1">▶ TOCAR</div>
+      <div class="bar-track"><div class="bar-fill" id="bar1"></div></div>
+    </div>
+  </button>
+
+  <button class="pad pad--2" id="pad2">
+    <div class="pad-inner">
+      <div class="pad-id">INTRO 2</div>
+      <div class="pad-name">Ficção</div>
+      <div class="pad-state" id="st2">▶ TOCAR</div>
+      <div class="bar-track"><div class="bar-fill" id="bar2"></div></div>
+    </div>
+  </button>
+
+  <button class="stop" id="btnStop">■ PARAR</button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var pads    = [document.getElementById('pad1'), document.getElementById('pad2')];
+  var states  = [document.getElementById('st1'), document.getElementById('st2')];
+  var bars    = [document.getElementById('bar1'), document.getElementById('bar2')];
+  var stopBtn = document.getElementById('btnStop');
+
+  var FILES   = ['intro-album.mp3', 'intro-ficcao.mp3'];
+  var players = [null, null];
+  var playing = [false, false];
+  var inited  = false;
+
+  function initAudio() {
+    if (inited) return;
+    inited = true;
+    for (var i = 0; i < 2; i++) {
+      players[i] = new Audio(FILES[i]);
+      players[i].preload = 'auto';
+      players[i].setAttribute('playsinline', '');
+      players[i].load();
+
+      (function(idx) {
+        players[idx].addEventListener('canplaythrough', function () {
+          if (!playing[idx]) states[idx].textContent = '▶ TOCAR';
+        });
+        players[idx].addEventListener('ended', function () {
+          playing[idx] = false;
+          pads[idx].classList.remove('live');
+          states[idx].textContent = '▶ TOCAR';
+          bars[idx].style.width = '0%';
+          showStop();
+        });
+        players[idx].addEventListener('error', function () {
+          states[idx].textContent = 'ERRO — RECARREGUE';
+        });
+      })(i);
+    }
+  }
+
+  function showStop() {
+    stopBtn.classList.toggle('on', playing[0] || playing[1]);
+  }
+
+  function stop(i) {
+    if (!players[i]) return;
+    players[i].pause();
+    players[i].currentTime = 0;
+    playing[i] = false;
+    pads[i].classList.remove('live');
+    states[i].textContent = '▶ TOCAR';
+    bars[i].style.width = '0%';
+  }
+
+  function play(i) {
+    initAudio();
+    if (!players[i]) return;
+    stop(1 - i);
+    players[i].currentTime = 0;
+    players[i].play().then(function () {
+      playing[i] = true;
+      pads[i].classList.add('live');
+      showStop();
+    }).catch(function () {
+      states[i].textContent = 'ERRO — TOQUE DE NOVO';
+    });
+  }
+
+  function toggle(i) {
+    initAudio();
+    if (playing[i]) { stop(i); showStop(); }
+    else { play(i); }
+  }
+
+  function tick() {
+    for (var i = 0; i < 2; i++) {
+      if (playing[i] && players[i] && players[i].duration) {
+        var pct = (players[i].currentTime / players[i].duration) * 100;
+        bars[i].style.width = pct + '%';
+        var cur = players[i].currentTime;
+        var dur = players[i].duration;
+        var mm = function(s) { return Math.floor(s/60) + ':' + ('0'+Math.floor(s%60)).slice(-2); };
+        states[i].textContent = '■ ' + mm(cur) + ' / ' + mm(dur);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  pads[0].addEventListener('click', function () { toggle(0); });
+  pads[1].addEventListener('click', function () { toggle(1); });
+  stopBtn.addEventListener('click', function () { stop(0); stop(1); showStop(); });
+
+  function wl() {
+    if ('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(function(){});
+  }
+  wl();
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible') wl();
+  });
+
+})();
+</script>
+</body>
+</html>
