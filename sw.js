@@ -1,38 +1,52 @@
-var CACHE_NAME = 'intros-v1';
-var ASSETS = [
+// Service Worker — INTROS Console
+// Bump CACHE_VERSION sempre que trocar arquivos (força re-download)
+const CACHE_VERSION = 'intros-v3';
+
+const ASSETS = [
   './',
   './index.html',
+  './manifest.json',
+  './intro-preshow.mp3',
   './intro-album.mp3',
   './intro-ficcao.mp3'
 ];
 
-self.addEventListener('install', function (e) {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.addAll(ASSETS);
-    }).then(function () {
-      return self.skipWaiting();
-    })
+// Instala e baixa tudo
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_VERSION).then((cache) => cache.addAll(ASSETS))
   );
+  self.skipWaiting();
 });
 
-self.addEventListener('activate', function (e) {
-  e.waitUntil(
-    caches.keys().then(function (names) {
-      return Promise.all(
-        names.filter(function (n) { return n !== CACHE_NAME; })
-             .map(function (n) { return caches.delete(n); })
+// Limpa caches antigos (v1, v2…) quando o novo SW ativa
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys
+          .filter((k) => k !== CACHE_VERSION)
+          .map((k) => caches.delete(k))
+      )
+    )
+  );
+  self.clients.claim();
+});
+
+// Cache-first: serve do cache, cai pra rede se não tiver
+self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+  event.respondWith(
+    caches.match(event.request).then((cached) => {
+      return (
+        cached ||
+        fetch(event.request).then((res) => {
+          // Cacheia a resposta pra próxima vez (útil em dev)
+          const copy = res.clone();
+          caches.open(CACHE_VERSION).then((c) => c.put(event.request, copy));
+          return res;
+        })
       );
-    }).then(function () {
-      return self.clients.claim();
-    })
-  );
-});
-
-self.addEventListener('fetch', function (e) {
-  e.respondWith(
-    caches.match(e.request).then(function (cached) {
-      return cached || fetch(e.request);
     })
   );
 });
