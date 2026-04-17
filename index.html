@@ -7,205 +7,368 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#000000">
 <link rel="manifest" href="manifest.json">
-<title>INTROS</title>
+<title>INTROS — CONSOLE</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   html, body {
     height: 100%; width: 100%;
     overflow: hidden;
-    background: #000;
+    background: #050505;
     -webkit-user-select: none; user-select: none;
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+    color: #fff;
   }
 
-  .main {
+  .console {
     display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
     height: 100dvh; width: 100%;
-    padding: 16px;
-    gap: 20px;
+    padding: 14px 12px;
+    padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
+    gap: 10px;
+    max-width: 520px;
+    margin: 0 auto;
   }
 
-  .pad {
-    width: 100%; max-width: 400px;
-    border: none; outline: none;
-    border-radius: 20px;
+  /* HEADER DO CONSOLE */
+  .console-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: #0c0c0c;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+  }
+  .head-left { display: flex; align-items: center; gap: 8px; }
+  .head-led {
+    width: 8px; height: 8px;
+    background: #00e676;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00e676;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .head-title {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #888;
+    font-weight: 500;
+  }
+  .head-right {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #00e5ff;
+    font-weight: 500;
+  }
+
+  /* ÁREA DOS CANAIS */
+  .channels {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+  }
+
+  .channel {
+    flex: 1;
+    background: #0c0c0c;
+    border: 2px solid #1a1a1a;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     cursor: pointer;
     touch-action: manipulation;
-    transition: transform 0.06s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.06s ease;
+    position: relative;
+    overflow: hidden;
   }
-  .pad:active { transform: scale(0.95); }
+  .channel:active { transform: scale(0.99); }
 
-  .pad-inner {
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 48px 20px 38px;
-    gap: 4px;
+  .ch-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .ch-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ch-num {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #666;
+    font-weight: 500;
+  }
+  .ch-led {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #222;
+    transition: background 0.25s, box-shadow 0.25s;
+  }
+  .ch-time {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #555;
+    font-variant-numeric: tabular-nums;
   }
 
-  .pad-id {
+  .ch-name {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 4.5rem;
+    font-size: 2.4rem;
     line-height: 1;
     letter-spacing: 4px;
-  }
-  .pad-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    letter-spacing: 8px;
-    text-transform: uppercase;
-  }
-  .pad-state {
-    font-family: -apple-system, sans-serif;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
     margin-top: 10px;
-    min-height: 16px;
-    transition: color 0.3s;
+    color: #666;
+    transition: color 0.25s;
+  }
+  .ch-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #444;
+    margin-top: 4px;
+    text-transform: uppercase;
   }
 
-  .bar-track {
-    width: 70%; height: 4px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 4px;
-    overflow: hidden;
-    margin-top: 8px;
+  /* VU METER */
+  .vu {
+    display: flex;
+    gap: 3px;
+    height: 26px;
+    align-items: flex-end;
+    margin-top: 14px;
   }
-  .bar-fill {
-    height: 100%; width: 0%;
-    border-radius: 4px;
-  }
-
-  /* PAD 1 — AMBER */
-  .pad--1 {
-    background: #1a1400;
-    border: 3px solid #332800;
-  }
-  .pad--1 .pad-id { color: #ffb800; }
-  .pad--1 .pad-name { color: #ffb800; opacity: 0.7; }
-  .pad--1 .pad-state { color: #665200; }
-  .pad--1 .bar-fill { background: #ffb800; }
-  .pad--1.live {
-    border-color: #ffb800;
-    box-shadow: 0 0 60px rgba(255,184,0,0.35), 0 0 140px rgba(255,184,0,0.1);
-  }
-  .pad--1.live .pad-state { color: #ffb800; }
-
-  /* PAD 2 — CYAN */
-  .pad--2 {
-    background: #001a1f;
-    border: 3px solid #003340;
-  }
-  .pad--2 .pad-id { color: #00e5ff; }
-  .pad--2 .pad-name { color: #00e5ff; opacity: 0.7; }
-  .pad--2 .pad-state { color: #005266; }
-  .pad--2 .bar-fill { background: #00e5ff; }
-  .pad--2.live {
-    border-color: #00e5ff;
-    box-shadow: 0 0 60px rgba(0,229,255,0.35), 0 0 140px rgba(0,229,255,0.1);
-  }
-  .pad--2.live .pad-state { color: #00e5ff; }
-
-  .pad.live { animation: breathe 2s ease-in-out infinite; }
-  @keyframes breathe {
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.2); }
+  .vu-bar {
+    flex: 1;
+    background: #1a1a1a;
+    height: 10%;
+    border-radius: 1px;
+    transition: height 0.08s ease-out, background 0.1s;
   }
 
-  /* STOP */
-  .stop {
-    position: fixed;
-    bottom: max(20px, env(safe-area-inset-bottom, 20px));
-    left: 50%; transform: translateX(-50%);
-    background: rgba(255,59,59,0.1);
-    border: 2px solid rgba(255,59,59,0.3);
-    color: #ff3b3b;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
-    letter-spacing: 6px;
-    padding: 14px 44px;
-    border-radius: 14px;
+  /* COR POR CANAL */
+  .channel--1 .ch-num,
+  .channel--1 .ch-name { color: #ff3d71; }
+  .channel--1.live { border-color: #ff3d71; background: #15080d; }
+  .channel--1.live .ch-led { background: #ff3d71; box-shadow: 0 0 10px #ff3d71; }
+  .channel--1.live .ch-time { color: #ff3d71; }
+  .channel--1.live .ch-name { color: #ff3d71; text-shadow: 0 0 20px rgba(255,61,113,0.5); }
+  .channel--1.live .ch-sub { color: #ff3d71; opacity: 0.7; }
+  .channel--1.live .vu-bar { background: #ff3d71; }
+
+  .channel--2 .ch-num,
+  .channel--2 .ch-name { color: #ffb800; }
+  .channel--2.live { border-color: #ffb800; background: #1a1400; }
+  .channel--2.live .ch-led { background: #ffb800; box-shadow: 0 0 10px #ffb800; }
+  .channel--2.live .ch-time { color: #ffb800; }
+  .channel--2.live .ch-name { color: #ffb800; text-shadow: 0 0 20px rgba(255,184,0,0.5); }
+  .channel--2.live .ch-sub { color: #ffb800; opacity: 0.7; }
+  .channel--2.live .vu-bar { background: #ffb800; }
+
+  .channel--3 .ch-num,
+  .channel--3 .ch-name { color: #00e5ff; }
+  .channel--3.live { border-color: #00e5ff; background: #001a1f; }
+  .channel--3.live .ch-led { background: #00e5ff; box-shadow: 0 0 10px #00e5ff; }
+  .channel--3.live .ch-time { color: #00e5ff; }
+  .channel--3.live .ch-name { color: #00e5ff; text-shadow: 0 0 20px rgba(0,229,255,0.5); }
+  .channel--3.live .ch-sub { color: #00e5ff; opacity: 0.7; }
+  .channel--3.live .vu-bar { background: #00e5ff; }
+
+  /* FOOTER — MASTER / KILL */
+  .master {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0c0c0c;
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 8px 14px;
+  }
+  .master-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #666;
+    font-weight: 500;
+  }
+  .kill {
+    background: transparent;
+    border: 1.5px solid #333;
+    color: #555;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    padding: 8px 22px;
+    border-radius: 5px;
     cursor: pointer;
     touch-action: manipulation;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.3s;
+    font-weight: 700;
+    transition: all 0.2s ease;
   }
-  .stop.on { opacity: 1; pointer-events: all; }
-  .stop:active { transform: translateX(-50%) scale(0.95); }
+  .kill.on {
+    border-color: #ff3d71;
+    color: #ff3d71;
+    background: rgba(255,61,113,0.08);
+  }
+  .kill.on:active { transform: scale(0.95); }
+
+  /* respeitar alturas pequenas */
+  @media (max-height: 640px) {
+    .ch-name { font-size: 1.9rem; letter-spacing: 3px; }
+    .vu { height: 20px; }
+    .channel { padding: 10px 14px; }
+  }
 </style>
 </head>
 <body>
 
-<div class="main">
-  <button class="pad pad--1" id="pad1">
-    <div class="pad-inner">
-      <div class="pad-id">INTRO 1</div>
-      <div class="pad-name">Álbum</div>
-      <div class="pad-state" id="st1">▶ TOCAR</div>
-      <div class="bar-track"><div class="bar-fill" id="bar1"></div></div>
-    </div>
-  </button>
+<div class="console">
 
-  <button class="pad pad--2" id="pad2">
-    <div class="pad-inner">
-      <div class="pad-id">INTRO 2</div>
-      <div class="pad-name">Ficção</div>
-      <div class="pad-state" id="st2">▶ TOCAR</div>
-      <div class="bar-track"><div class="bar-fill" id="bar2"></div></div>
+  <div class="console-head">
+    <div class="head-left">
+      <div class="head-led"></div>
+      <div class="head-title">LIVE CONSOLE</div>
     </div>
-  </button>
+    <div class="head-right">CH 01 — 02 — 03</div>
+  </div>
 
-  <button class="stop" id="btnStop">■ PARAR</button>
+  <div class="channels">
+
+    <button class="channel channel--1" id="pad1" aria-label="Tocar Pré-Show">
+      <div class="ch-top">
+        <div class="ch-meta">
+          <span class="ch-num">CH 01</span>
+          <span class="ch-led" id="led1"></span>
+        </div>
+        <span class="ch-time" id="time1">▶ READY</span>
+      </div>
+      <div>
+        <div class="ch-name">PRÉ-SHOW</div>
+        <div class="ch-sub">Working Class Hero</div>
+        <div class="vu" id="vu1">
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+        </div>
+      </div>
+    </button>
+
+    <button class="channel channel--2" id="pad2" aria-label="Tocar Álbum">
+      <div class="ch-top">
+        <div class="ch-meta">
+          <span class="ch-num">CH 02</span>
+          <span class="ch-led" id="led2"></span>
+        </div>
+        <span class="ch-time" id="time2">▶ READY</span>
+      </div>
+      <div>
+        <div class="ch-name">ÁLBUM</div>
+        <div class="ch-sub">Intro 01</div>
+        <div class="vu" id="vu2">
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+        </div>
+      </div>
+    </button>
+
+    <button class="channel channel--3" id="pad3" aria-label="Tocar Ficção">
+      <div class="ch-top">
+        <div class="ch-meta">
+          <span class="ch-num">CH 03</span>
+          <span class="ch-led" id="led3"></span>
+        </div>
+        <span class="ch-time" id="time3">▶ READY</span>
+      </div>
+      <div>
+        <div class="ch-name">FICÇÃO</div>
+        <div class="ch-sub">Intro 02</div>
+        <div class="vu" id="vu3">
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+        </div>
+      </div>
+    </button>
+
+  </div>
+
+  <div class="master">
+    <div class="master-label">MASTER</div>
+    <button class="kill" id="btnStop">■ KILL</button>
+  </div>
+
 </div>
 
 <script>
 (function () {
   'use strict';
 
-  var pads    = [document.getElementById('pad1'), document.getElementById('pad2')];
-  var states  = [document.getElementById('st1'), document.getElementById('st2')];
-  var bars    = [document.getElementById('bar1'), document.getElementById('bar2')];
+  var N = 3;
+  var pads  = [document.getElementById('pad1'), document.getElementById('pad2'), document.getElementById('pad3')];
+  var times = [document.getElementById('time1'), document.getElementById('time2'), document.getElementById('time3')];
+  var vus   = [document.getElementById('vu1'), document.getElementById('vu2'), document.getElementById('vu3')];
   var stopBtn = document.getElementById('btnStop');
 
-  var FILES   = ['intro-album.mp3', 'intro-ficcao.mp3'];
-  var players = [null, null];
-  var playing = [false, false];
+  var FILES = ['intro-preshow.mp3', 'intro-album.mp3', 'intro-ficcao.mp3'];
+  var players = [null, null, null];
+  var playing = [false, false, false];
   var inited  = false;
+
+  // cache dos bars por canal
+  var bars = vus.map(function (v) { return v.querySelectorAll('.vu-bar'); });
+
+  function mm(s) {
+    return Math.floor(s/60) + ':' + ('0' + Math.floor(s%60)).slice(-2);
+  }
 
   function initAudio() {
     if (inited) return;
     inited = true;
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < N; i++) {
       players[i] = new Audio(FILES[i]);
       players[i].preload = 'auto';
       players[i].setAttribute('playsinline', '');
       players[i].load();
 
-      (function(idx) {
+      (function (idx) {
         players[idx].addEventListener('canplaythrough', function () {
-          if (!playing[idx]) states[idx].textContent = '▶ TOCAR';
+          if (!playing[idx]) times[idx].textContent = '▶ READY';
         });
         players[idx].addEventListener('ended', function () {
           playing[idx] = false;
           pads[idx].classList.remove('live');
-          states[idx].textContent = '▶ TOCAR';
-          bars[idx].style.width = '0%';
+          times[idx].textContent = '▶ READY';
+          resetBars(idx);
           showStop();
         });
         players[idx].addEventListener('error', function () {
-          states[idx].textContent = 'ERRO — RECARREGUE';
+          times[idx].textContent = 'ERR';
         });
       })(i);
     }
   }
 
   function showStop() {
-    stopBtn.classList.toggle('on', playing[0] || playing[1]);
+    stopBtn.classList.toggle('on', playing[0] || playing[1] || playing[2]);
+  }
+
+  function resetBars(i) {
+    for (var b = 0; b < bars[i].length; b++) {
+      bars[i][b].style.height = '10%';
+    }
   }
 
   function stop(i) {
@@ -214,21 +377,22 @@
     players[i].currentTime = 0;
     playing[i] = false;
     pads[i].classList.remove('live');
-    states[i].textContent = '▶ TOCAR';
-    bars[i].style.width = '0%';
+    times[i].textContent = '▶ READY';
+    resetBars(i);
   }
 
   function play(i) {
     initAudio();
     if (!players[i]) return;
-    stop(1 - i);
+    // pára os outros
+    for (var j = 0; j < N; j++) if (j !== i) stop(j);
     players[i].currentTime = 0;
     players[i].play().then(function () {
       playing[i] = true;
       pads[i].classList.add('live');
       showStop();
     }).catch(function () {
-      states[i].textContent = 'ERRO — TOQUE DE NOVO';
+      times[i].textContent = 'ERR — TOQUE DE NOVO';
     });
   }
 
@@ -238,15 +402,22 @@
     else { play(i); }
   }
 
+  // animação dos VU meters (fake peaks baseados em progresso + aleatoriedade)
   function tick() {
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < N; i++) {
       if (playing[i] && players[i] && players[i].duration) {
-        var pct = (players[i].currentTime / players[i].duration) * 100;
-        bars[i].style.width = pct + '%';
         var cur = players[i].currentTime;
         var dur = players[i].duration;
-        var mm = function(s) { return Math.floor(s/60) + ':' + ('0'+Math.floor(s%60)).slice(-2); };
-        states[i].textContent = '■ ' + mm(cur) + ' / ' + mm(dur);
+        times[i].textContent = '■ ' + mm(cur) + ' / ' + mm(dur);
+
+        // simula VU com variação pseudo-aleatória
+        for (var b = 0; b < bars[i].length; b++) {
+          var base = 20 + Math.random() * 70;
+          // dá picos maiores no meio
+          var bias = 1 - Math.abs((b / bars[i].length) - 0.5) * 0.4;
+          var h = Math.min(100, base * bias);
+          bars[i][b].style.height = h + '%';
+        }
       }
     }
     requestAnimationFrame(tick);
@@ -255,8 +426,13 @@
 
   pads[0].addEventListener('click', function () { toggle(0); });
   pads[1].addEventListener('click', function () { toggle(1); });
-  stopBtn.addEventListener('click', function () { stop(0); stop(1); showStop(); });
+  pads[2].addEventListener('click', function () { toggle(2); });
+  stopBtn.addEventListener('click', function () {
+    for (var i = 0; i < N; i++) stop(i);
+    showStop();
+  });
 
+  // wake lock — mantém a tela acesa durante o show
   function wl() {
     if ('wakeLock' in navigator) navigator.wakeLock.request('screen').catch(function(){});
   }
