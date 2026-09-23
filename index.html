@@ -82,7 +82,7 @@
     background: #0c0c0c;
     border: 2px solid #1a1a1a;
     border-radius: 10px;
-    padding: 14px 16px;
+    padding: 12px 16px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -125,10 +125,10 @@
 
   .ch-name {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     line-height: 1;
     letter-spacing: 4px;
-    margin-top: 10px;
+    margin-top: 6px;
     color: #666;
     transition: color 0.25s;
   }
@@ -144,9 +144,9 @@
   .vu {
     display: flex;
     gap: 3px;
-    height: 26px;
+    height: 22px;
     align-items: flex-end;
-    margin-top: 14px;
+    margin-top: 10px;
   }
   .vu-bar {
     flex: 1;
@@ -167,22 +167,31 @@
   .channel--1.live .vu-bar { background: #ff3d71; }
 
   .channel--2 .ch-num,
-  .channel--2 .ch-name { color: #ffb800; }
-  .channel--2.live { border-color: #ffb800; background: #1a1400; }
-  .channel--2.live .ch-led { background: #ffb800; box-shadow: 0 0 10px #ffb800; }
-  .channel--2.live .ch-time { color: #ffb800; }
-  .channel--2.live .ch-name { color: #ffb800; text-shadow: 0 0 20px rgba(255,184,0,0.5); }
-  .channel--2.live .ch-sub { color: #ffb800; opacity: 0.7; }
-  .channel--2.live .vu-bar { background: #ffb800; }
+  .channel--2 .ch-name { color: #b388ff; }
+  .channel--2.live { border-color: #b388ff; background: #120d1c; }
+  .channel--2.live .ch-led { background: #b388ff; box-shadow: 0 0 10px #b388ff; }
+  .channel--2.live .ch-time { color: #b388ff; }
+  .channel--2.live .ch-name { color: #b388ff; text-shadow: 0 0 20px rgba(179,136,255,0.5); }
+  .channel--2.live .ch-sub { color: #b388ff; opacity: 0.7; }
+  .channel--2.live .vu-bar { background: #b388ff; }
 
   .channel--3 .ch-num,
-  .channel--3 .ch-name { color: #00e5ff; }
-  .channel--3.live { border-color: #00e5ff; background: #001a1f; }
-  .channel--3.live .ch-led { background: #00e5ff; box-shadow: 0 0 10px #00e5ff; }
-  .channel--3.live .ch-time { color: #00e5ff; }
-  .channel--3.live .ch-name { color: #00e5ff; text-shadow: 0 0 20px rgba(0,229,255,0.5); }
-  .channel--3.live .ch-sub { color: #00e5ff; opacity: 0.7; }
-  .channel--3.live .vu-bar { background: #00e5ff; }
+  .channel--3 .ch-name { color: #ffb800; }
+  .channel--3.live { border-color: #ffb800; background: #1a1400; }
+  .channel--3.live .ch-led { background: #ffb800; box-shadow: 0 0 10px #ffb800; }
+  .channel--3.live .ch-time { color: #ffb800; }
+  .channel--3.live .ch-name { color: #ffb800; text-shadow: 0 0 20px rgba(255,184,0,0.5); }
+  .channel--3.live .ch-sub { color: #ffb800; opacity: 0.7; }
+  .channel--3.live .vu-bar { background: #ffb800; }
+
+  .channel--4 .ch-num,
+  .channel--4 .ch-name { color: #00e5ff; }
+  .channel--4.live { border-color: #00e5ff; background: #001a1f; }
+  .channel--4.live .ch-led { background: #00e5ff; box-shadow: 0 0 10px #00e5ff; }
+  .channel--4.live .ch-time { color: #00e5ff; }
+  .channel--4.live .ch-name { color: #00e5ff; text-shadow: 0 0 20px rgba(0,229,255,0.5); }
+  .channel--4.live .ch-sub { color: #00e5ff; opacity: 0.7; }
+  .channel--4.live .vu-bar { background: #00e5ff; }
 
   /* FOOTER — MASTER / KILL */
   .master {
@@ -222,10 +231,11 @@
   .kill.on:active { transform: scale(0.95); }
 
   /* respeitar alturas pequenas */
-  @media (max-height: 640px) {
-    .ch-name { font-size: 1.9rem; letter-spacing: 3px; }
-    .vu { height: 20px; }
-    .channel { padding: 10px 14px; }
+  @media (max-height: 700px) {
+    .ch-name { font-size: 1.7rem; letter-spacing: 3px; margin-top: 4px; }
+    .vu { height: 14px; margin-top: 6px; }
+    .channel { padding: 8px 14px; }
+    .channels { gap: 8px; }
   }
 </style>
 </head>
@@ -238,7 +248,7 @@
       <div class="head-led"></div>
       <div class="head-title">LIVE CONSOLE</div>
     </div>
-    <div class="head-right">CH 01 — 02 — 03</div>
+    <div class="head-right">CH 01 — 02 — 03 — 04</div>
   </div>
 
   <div class="channels">
@@ -263,7 +273,7 @@
       </div>
     </button>
 
-    <button class="channel channel--2" id="pad2" aria-label="Tocar Ficção">
+    <button class="channel channel--2" id="pad2" aria-label="Tocar O Chamado">
       <div class="ch-top">
         <div class="ch-meta">
           <span class="ch-num">CH 02</span>
@@ -272,7 +282,7 @@
         <span class="ch-time" id="time2">▶ READY</span>
       </div>
       <div>
-        <div class="ch-name">FICÇÃO</div>
+        <div class="ch-name">O CHAMADO</div>
         <div class="ch-sub">Intro 02</div>
         <div class="vu" id="vu2">
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
@@ -283,7 +293,7 @@
       </div>
     </button>
 
-    <button class="channel channel--3" id="pad3" aria-label="Tocar encerramento: Working Class Hero">
+    <button class="channel channel--3" id="pad3" aria-label="Tocar Ficção">
       <div class="ch-top">
         <div class="ch-meta">
           <span class="ch-num">CH 03</span>
@@ -292,9 +302,29 @@
         <span class="ch-time" id="time3">▶ READY</span>
       </div>
       <div>
+        <div class="ch-name">FICÇÃO</div>
+        <div class="ch-sub">Intro 03</div>
+        <div class="vu" id="vu3">
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+          <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
+        </div>
+      </div>
+    </button>
+
+    <button class="channel channel--4" id="pad4" aria-label="Tocar encerramento: Working Class Hero">
+      <div class="ch-top">
+        <div class="ch-meta">
+          <span class="ch-num">CH 04</span>
+          <span class="ch-led" id="led4"></span>
+        </div>
+        <span class="ch-time" id="time4">▶ READY</span>
+      </div>
+      <div>
         <div class="ch-name">ENCERRAMENTO</div>
         <div class="ch-sub">Working Class Hero</div>
-        <div class="vu" id="vu3">
+        <div class="vu" id="vu4">
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
@@ -316,19 +346,23 @@
 (function () {
   'use strict';
 
-  var N = 3;
-  var pads  = [document.getElementById('pad1'), document.getElementById('pad2'), document.getElementById('pad3')];
-  var times = [document.getElementById('time1'), document.getElementById('time2'), document.getElementById('time3')];
-  var vus   = [document.getElementById('vu1'), document.getElementById('vu2'), document.getElementById('vu3')];
-  var stopBtn = document.getElementById('btnStop');
-
+  // Ordem = CH 01, CH 02, CH 03, CH 04
   var FILES = [
-    'intro-album.mp3',   // CH 01 — Início
-    'intro-ficcao.mp3',  // CH 02 — Ficção
-    'intro-preshow.mp3'  // CH 03 — Encerramento: Working Class Hero
+    'intro-album.mp3',    // CH 01 — Início
+    'chamadointro.mp3',   // CH 02 — O Chamado
+    'intro-ficcao.mp3',   // CH 03 — Ficção
+    'intro-preshow.mp3'   // CH 04 — Encerramento: Working Class Hero
   ];
-  var players = [null, null, null];
-  var playing = [false, false, false];
+  var N = FILES.length;
+  var pads = [], times = [], vus = [], players = [], playing = [];
+  for (var k = 1; k <= N; k++) {
+    pads.push(document.getElementById('pad' + k));
+    times.push(document.getElementById('time' + k));
+    vus.push(document.getElementById('vu' + k));
+    players.push(null);
+    playing.push(false);
+  }
+  var stopBtn = document.getElementById('btnStop');
   var inited  = false;
 
   // cache dos bars por canal
@@ -366,7 +400,7 @@
   }
 
   function showStop() {
-    stopBtn.classList.toggle('on', playing[0] || playing[1] || playing[2]);
+    stopBtn.classList.toggle('on', playing.indexOf(true) !== -1);
   }
 
   function resetBars(i) {
@@ -426,9 +460,9 @@
   }
   requestAnimationFrame(tick);
 
-  pads[0].addEventListener('click', function () { toggle(0); });
-  pads[1].addEventListener('click', function () { toggle(1); });
-  pads[2].addEventListener('click', function () { toggle(2); });
+  pads.forEach(function (p, idx) {
+    p.addEventListener('click', function () { toggle(idx); });
+  });
   stopBtn.addEventListener('click', function () {
     for (var i = 0; i < N; i++) stop(i);
     showStop();
