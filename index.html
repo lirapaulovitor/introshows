@@ -243,7 +243,7 @@
 
   <div class="channels">
 
-    <button class="channel channel--1" id="pad1" aria-label="Tocar pós-show: Working Class Hero">
+    <button class="channel channel--1" id="pad1" aria-label="Tocar Início">
       <div class="ch-top">
         <div class="ch-meta">
           <span class="ch-num">CH 01</span>
@@ -252,8 +252,8 @@
         <span class="ch-time" id="time1">▶ READY</span>
       </div>
       <div>
-        <div class="ch-name">PÓS-SHOW</div>
-        <div class="ch-sub">Working Class Hero</div>
+        <div class="ch-name">INÍCIO</div>
+        <div class="ch-sub">Intro 01</div>
         <div class="vu" id="vu1">
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
@@ -263,7 +263,7 @@
       </div>
     </button>
 
-    <button class="channel channel--2" id="pad2" aria-label="Tocar Álbum">
+    <button class="channel channel--2" id="pad2" aria-label="Tocar Ficção">
       <div class="ch-top">
         <div class="ch-meta">
           <span class="ch-num">CH 02</span>
@@ -272,8 +272,8 @@
         <span class="ch-time" id="time2">▶ READY</span>
       </div>
       <div>
-        <div class="ch-name">ÁLBUM</div>
-        <div class="ch-sub">Intro 01</div>
+        <div class="ch-name">FICÇÃO</div>
+        <div class="ch-sub">Intro 02</div>
         <div class="vu" id="vu2">
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
@@ -283,7 +283,7 @@
       </div>
     </button>
 
-    <button class="channel channel--3" id="pad3" aria-label="Tocar Ficção">
+    <button class="channel channel--3" id="pad3" aria-label="Tocar encerramento: Working Class Hero">
       <div class="ch-top">
         <div class="ch-meta">
           <span class="ch-num">CH 03</span>
@@ -292,8 +292,8 @@
         <span class="ch-time" id="time3">▶ READY</span>
       </div>
       <div>
-        <div class="ch-name">FICÇÃO</div>
-        <div class="ch-sub">Intro 02</div>
+        <div class="ch-name">ENCERRAMENTO</div>
+        <div class="ch-sub">Working Class Hero</div>
         <div class="vu" id="vu3">
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
           <div class="vu-bar"></div><div class="vu-bar"></div><div class="vu-bar"></div>
@@ -323,9 +323,9 @@
   var stopBtn = document.getElementById('btnStop');
 
   var FILES = [
-    'intro-preshow.mp3', // CH 01 — Pós-show: Working Class Hero
-    'intro-album.mp3',   // CH 02 — Álbum
-    'intro-ficcao.mp3'   // CH 03 — Ficção
+    'intro-album.mp3',   // CH 01 — Início
+    'intro-ficcao.mp3',  // CH 02 — Ficção
+    'intro-preshow.mp3'  // CH 03 — Encerramento: Working Class Hero
   ];
   var players = [null, null, null];
   var playing = [false, false, false];
